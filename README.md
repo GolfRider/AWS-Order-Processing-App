@@ -11,6 +11,7 @@
 	b. ORDER_PROCESSED_QUEUE,
 	c. ORDER_UPDATE_EVENT_QUEUE
   
+  Data Flow:      
 	OrderEntryApp ==>[ORDER_ENTRY_QUEUE]==>OrderProcessingApp ==> [ORDER_PROCESSED_QUEUE]==>OrderFulfilmentApp
 	/\                                                 ||                                           ||
 	||                                                 ||                                           ||  
