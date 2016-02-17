@@ -21,4 +21,6 @@
                                                   
                                  
                                     
-  
+   ### Screen Shots
+    ![alt tag](https://github.com/GolfRider/AWS-Order-Processing-App/blob/master/order-entry-app-screen.PNG)
+
