@@ -27,9 +27,9 @@
          height="300" />
 
 #### Order Processing App
-<img src="https://github.com/GolfRider/AWS-Order-Processing-App/blob/master/order-processing-app-screen.PNG" width="400"  
+<img src="https://github.com/GolfRider/AWS-Order-Processing-App/blob/master/order-processing-app-screen.PNG" width="500"  
            height="300" />
            
 #### Order Fulfilment App
-<img src="https://github.com/GolfRider/AWS-Order-Processing-App/blob/master/order-fulfilment-app-screen.PNG" width="400"    
+<img src="https://github.com/GolfRider/AWS-Order-Processing-App/blob/master/order-fulfilment-app-screen.PNG" width="500"    
           height="300" />
