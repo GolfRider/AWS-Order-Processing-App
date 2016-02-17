@@ -1,0 +1,9 @@
+package com.order.commons;
+
+public enum ORDER_STAGE {
+	ORDER_ENTRY,
+	ORDER_PROCESSING,
+	ORDER_PROCESSED,
+	ORDER_FULFILMENT,
+	ORDER_FULFILLED
+}

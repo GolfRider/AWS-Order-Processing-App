@@ -1,0 +1,169 @@
+<html>
+
+  <head>
+    <title>Order Entry WebApp</title>
+
+    <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+               integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" 
+              integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>            
+    
+     <!-- Latest compiled and minified JavaScript -->
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" 
+              integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" 
+              crossorigin="anonymous"></script>
+   <style type="text/css">
+     * { 
+         word-wrap:break-word;
+       }
+       table{ 
+          table-layout: fixed;
+          width: 100%;
+          font-size: 12px;
+       }
+       
+     </style>
+         
+     <body>
+		 <div class="panel panel-primary">
+		 <div class="panel-heading" style="font-weight:bold;font-size:18px;">Order Entry Web App</div>
+		</div>
+        <div class="col-sm-4">
+        <p style="color:#1E90FF;"><b>[Please select & order the items]</b></p>
+           <form role="form">
+		       <div class="form-group" id="orderItemList">
+				
+			   </div>
+	          <button id="submit-order" type="button" class="btn btn-default">Submit Order</button>
+		  </form>
+     </div>
+     <div class="col-sm-6">
+       <h4 style="color:#1E90FF;"><b>[Order Status Update]</b></h4>
+        <table class="table table-bordered table-condensed table-striped">
+			    <thead>
+			      <tr>
+			        <th>Server</th>
+			        <th width="70px;">Order No.</th>
+			        <th>Item</th>
+			        <th>Event</th>
+			        <th>DateTime</th>
+			        
+			      </tr>
+			    </thead>
+			    <tbody id="orderUpdateEventTable">
+			    </tbody>
+			  </table>
+     </div>
+     <div class="col-sm-2">
+     </div> 
+	</body>
+	<script>
+	var orderItemList=     ["8-Grain Roll",
+							"Bacon & Gouda Breakfast Sandwich",
+							"Banana Nut Bread",
+							"BBQ Beef Brisket on Sourdough",
+							"Birthday Cake Pop",
+							"Blueberry Muffin with Yogurt and Honey",
+							"Blueberry Scone",
+							"Butter Croissant",
+							"Caffe Americano",
+							"Caffe Latte",
+							"Caffe Mocha",
+							"Cappuccino",
+							"Caramel Brule Latte",
+							"Caramel Flan Latte",
+							"Caramel Macchiato",
+							"Cheese & Fruit Bistro Box",
+							"Cheese Danish",
+							"Chestnut Praline Latte",
+							"Chewy Chocolate Cookie",
+							"Chicken Artichoke on Ancient Grain Flatbread",
+							"Chicken BLT Salad Sandwich",
+							"Chicken Santa Fe on Ancient Grain Flatbread",
+							"Chocolate Cake Pop",
+							"Chocolate Chip Cookie",
+							"Chocolate Croissant"];
+
+			$(document).ready(function(){
+
+				$("#orderItemList").html(getOrderItemHTML(orderItemList));	
+					
+				 //Submit Order
+				 submitOrder();
+				
+				 //Get Order Updates
+				 setInterval(function(){getOrderUpdates();},3000);
+			});
+
+
+	function getOrderItemHTML(orderItemList){
+		var html=""
+		for(i=0;i<orderItemList.length;i++){
+			var part1="<div class=\"checkbox\"><label>";
+	        var part2="<input name=\"orderItem\" type=\"checkbox\" value=\""+orderItemList[i]+ "\">"+orderItemList[i];
+			var part3="</label></div>"+"\n";
+	        html+=part1+part2+part3;
+		}
+		return html;
+	}		
+	
+	function getOrderUpdateHTML(orderUpdateList){
+		var html=""
+		for(i=0;i<orderUpdateList.length;i++){
+		  html+="<tr>"
+		  html+="<td>"+orderUpdateList[i].serverId+"</td>"
+		  html+="<td>"+orderUpdateList[i].orderNo+"</td>"
+		  html+="<td>"+orderUpdateList[i].orderItems+"</td>"
+		  html+="<td>"+orderUpdateList[i].orderUpdateEvent+"</td>"
+		  html+="<td>"+new Date(orderUpdateList[i].orderUpdateTimestamp)+"</td>"
+	      html+="</tr>"
+		}
+		return html;
+	}
+	
+	function submitOrder(){
+		$("#submit-order").click(function(){
+	         var selectedOrderItems=[];
+	         $('input[name=orderItem]:checked').each(function() {
+	        	      selectedOrderItems.push($(this).val());
+	           	 });
+	        
+			 var orderedItems={ "orderItems":selectedOrderItems }
+	         
+	    	 $.ajax({  
+	    	        url:"/order/process",
+	        	    type:"POST",
+	        	    contentType: "application/json",
+	        	    data:JSON.stringify(orderedItems),
+	        	    success:function(data){
+	        	         console.log("success:"+JSON.stringify(data))
+	                  },
+	                error:function(err){
+	                	  consolelog("Some error happened:"+console.log(JSON.stringify(err))) 
+	                }
+	        });
+	    });
+	} //end of submit order function
+	
+	function getOrderUpdates(){
+			$.ajax({  
+		        url:"/order/show",
+	    	    type:"GET",
+	    	    contentType: "application/json",
+	    	    success:function(data){
+	    	    	 var orderUpdateHTML=getOrderUpdateHTML(data);
+                     $("#orderUpdateEventTable").html(orderUpdateHTML);
+	              },
+	            error:function(err){
+	            	  console.log("Some error happened:"+console.log(JSON.stringify(err))) 
+	            }
+	        });
+	}
+</script>
+    
+</html>

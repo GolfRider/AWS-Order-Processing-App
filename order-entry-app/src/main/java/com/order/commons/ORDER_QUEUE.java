@@ -1,0 +1,7 @@
+package com.order.commons;
+
+public enum ORDER_QUEUE{
+	ORDER_ENTRY_QUEUE,
+	ORDER_PROCESSED_QUEUE,
+	ORDER_UPDATE_EVENT_QUEUE
+}

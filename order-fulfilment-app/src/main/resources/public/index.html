@@ -1,0 +1,140 @@
+<html>
+
+  <head>
+    <title>Order Fulfilment WebApp</title>
+
+    <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" 
+               integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" 
+              integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>            
+    
+     <!-- Latest compiled and minified JavaScript -->
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" 
+              integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" 
+              crossorigin="anonymous"></script>
+     <style type="text/css">
+     * { 
+         word-wrap:break-word;
+       }
+       table{ 
+          table-layout: fixed;
+          width: 100%;
+          font-size: 12px;
+       }
+       
+     </style>
+         
+     <body>
+		 <div class="panel panel-primary">
+		 <div class="panel-heading" style="font-weight:bold;font-size:18px;">Order Fulfilment Web App</div>
+		</div>
+      <div class="row">
+      <div class="col-sm-6" style="margin-left:18px;">
+         <h4 style="color:#1E90FF;"><b>[Most Recently Arrived Order Item]</b></h4>
+          <table class="table table-bordered table-condensed table-striped">
+			    <thead>
+			      <tr>
+			        <th>Server</th>
+			        <th width="70px;">Order No.</th>
+			        <th>Item</th>
+			        <th>Event</th>
+			        <th>DateTime</th>
+			        
+			      </tr>
+			    </thead>
+			    <tbody id="recentArrivedOrderEvent">
+			    </tbody>
+			  </table>
+      </div>
+      <div class="col-sm-6">
+      </div>
+      </div>  
+      <div class="col-sm-6">
+       <h4 style="color:#FF8C00 "><b>[Order Fulfilment(pending) Events]</b></h4>
+        <table class="table table-bordered table-condensed table-striped">
+			    <thead>
+			      <tr>
+			        <th>Server</th>
+			        <th width="70px;">Order No.</th>
+			        <th>Item</th>
+			        <th>Event</th>
+			        <th>DateTime</th>
+			        
+			      </tr>
+			    </thead>
+			    <tbody id="pendingFulfilmentTable">
+			    </tbody>
+			  </table>
+     </div>
+     <div class="col-sm-6">
+       <h4 style="color:green"><b>[Order Fulfilment(completed) Events]</b></h4>
+        <table class="table table-bordered table-condensed table-striped">
+			    <thead>
+			      <tr>
+			        <th>Server</th>
+			        <th width="70px;">Order No.</th>
+			        <th>Item</th>
+			        <th>Event</th>
+			        <th>DateTime</th>
+			        
+			      </tr>
+			    </thead>
+			    <tbody id="completedFulfilmentTable">
+			    </tbody>
+			  </table>
+     </div>
+     <div class="col-sm-2">
+     </div> 
+	</body>
+	<script>
+
+			$(document).ready(function(){
+
+				 //Get Order fulfilment Updates
+				 setInterval(function(){getOrderFulfilmentUpdates();},3000);
+			});
+
+
+	function getOrderFulfilmentUpdates(){
+			$.ajax({  
+		        url:"/order/fulfilment",
+	    	    type:"GET",
+	    	    contentType: "application/json",
+	    	    success:function(data){
+	    	    	 console.log("DATA:"+JSON.stringify(data))
+	    	    	 var recentArrivedOrderEventHTML=getOrderUpdateHTML(data.recentArrivedOrderItem);
+	    	    	 var pendingFulfilmentOrderHTML=getOrderUpdateHTML(data.pendingFulfilmentList);
+	    	    	 var completedFulfilmentOrderHTML=getOrderUpdateHTML(data.completedFulfilmentList);
+	    	    	 $("#recentArrivedOrderEvent").html(recentArrivedOrderEventHTML);
+	    	    	 $("#pendingFulfilmentTable").html(pendingFulfilmentOrderHTML);
+	    	    	 $("#completedFulfilmentTable").html(completedFulfilmentOrderHTML);
+	              },
+	            error:function(err){
+	            	  console.log("Some error happened:"+JSON.stringify(err)) 
+	            }
+	        });
+	}
+	
+	function getOrderUpdateHTML(orderUpdateList){
+		var html=""
+		for(i=0;i<orderUpdateList.length;i++){
+		  if(orderUpdateList[i]!=null){
+			  html+="<tr>"
+				  html+="<td>"+orderUpdateList[i].serverId+"</td>"
+				  html+="<td>"+orderUpdateList[i].orderNo+"</td>"
+				  html+="<td>"+orderUpdateList[i].orderItems+"</td>"
+				  html+="<td>"+orderUpdateList[i].orderUpdateEvent+"</td>"
+				  html+="<td>"+new Date(orderUpdateList[i].orderUpdateTimestamp)+"</td>"
+			      html+="</tr>"  
+		  }	
+		}
+		return html;
+	}
+</script>
+    
+</html>
