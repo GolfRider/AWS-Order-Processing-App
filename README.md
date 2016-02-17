@@ -22,5 +22,13 @@
                                  
                                     
    ### Screen Shots
-    ![alt tag](https://github.com/GolfRider/AWS-Order-Processing-App/blob/master/order-entry-app-screen.PNG)
+    	 <img src="https://github.com/GolfRider/AWS-Order-Processing-App/blob/master/order-entry-app-screen.PNG" width="300"    
+         height="200" />
+
+         <img src="https://github.com/GolfRider/AWS-Order-Processing-App/blob/master/order-processing-app-screen.PNG" width="300"  
+           height="200" />
+         
+         <img src="https://github.com/GolfRider/AWS-Order-Processing-App/blob/master/order-fulfilment-app-screen.PNG" width="300"    
+          height="200" />
+
 
