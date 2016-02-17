@@ -11,11 +11,11 @@
 	b. ORDER_PROCESSED_QUEUE,
 	c. ORDER_UPDATE_EVENT_QUEUE
   
-	  OrderEntryApp ==> [ORDER_ENTRY_QUEUE (SQS)]==> OrderProcessingApp ==> [ORDER_PROCESSED_QUEUE (SQS)]==> OrderFulfilmentApp
-	        /\                                                 ||                                                      ||
-		||                                                 ||                                                      ||  
-	        ||                                                 \/                                                      ||
-	        ||=================================== [ORDER_UPDATE_EVENT_QUEUE (SQS)] <===================================||
+	OrderEntryApp ==> [ORDER_ENTRY_QUEUE (SQS)]==> OrderProcessingApp ==> [ORDER_PROCESSED_QUEUE (SQS)]==> OrderFulfilmentApp
+	/\                                                 ||                                                      ||
+	||                                                 ||                                                      ||  
+	||                                                 \/                                                      ||
+	||=================================== [ORDER_UPDATE_EVENT_QUEUE (SQS)] <===================================||
                                                   
                                                   
                                  
