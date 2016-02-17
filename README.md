@@ -12,10 +12,10 @@
 	c. ORDER_UPDATE_EVENT_QUEUE
   
 	OrderEntryApp ==>[ORDER_ENTRY_QUEUE]==>OrderProcessingApp ==> [ORDER_PROCESSED_QUEUE]==>OrderFulfilmentApp
-	/\                                                 ||                                                      ||
-	||                                                 ||                                                      ||  
-	||                                                 \/                                                      ||
-	||=================================== [ORDER_UPDATE_EVENT_QUEUE] <===================================||
+	/\                                                 ||                                           ||
+	||                                                 ||                                           ||  
+	||                                                 \/                                           ||
+	||=================================== [ORDER_UPDATE_EVENT_QUEUE] <==============================||
                                                   
                                                   
                                  
