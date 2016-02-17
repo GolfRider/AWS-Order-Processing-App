@@ -6,16 +6,16 @@
 	2. Order Processing App
 	3. Order Fulfilment App
     
-	The applications are inter-connected via 3 AWS-SQS Queues: 
+	The applications are inter-connected via 3 pre-created AWS-SQS Queues: 
 	a. ORDER_ENTRY_QUEUE,
 	b. ORDER_PROCESSED_QUEUE,
 	c. ORDER_UPDATE_EVENT_QUEUE
   
-	OrderEntryApp ==>[ORDER_ENTRY_QUEUE (SQS)]==>OrderProcessingApp ==> [ORDER_PROCESSED_QUEUE (SQS)]==>OrderFulfilmentApp
+	OrderEntryApp ==>[ORDER_ENTRY_QUEUE]==>OrderProcessingApp ==> [ORDER_PROCESSED_QUEUE]==>OrderFulfilmentApp
 	/\                                                 ||                                                      ||
 	||                                                 ||                                                      ||  
 	||                                                 \/                                                      ||
-	||=================================== [ORDER_UPDATE_EVENT_QUEUE (SQS)] <===================================||
+	||=================================== [ORDER_UPDATE_EVENT_QUEUE] <===================================||
                                                   
                                                   
                                  
